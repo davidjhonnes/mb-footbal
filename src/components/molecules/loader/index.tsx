@@ -1,35 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import AnimatedLoader from "react-native-animated-loader";
-import { getLeagues } from '../../../infra/leagues/leagues-services';
+import { getLeagues } from '../../../infra/api/leagues/leagues-services';
+import { connect } from 'react-redux';
 
 
-const PreLoader = (props: any) => {
-
-    const [loading, setLoading] = useState(false)
-    const [listLeagues, setListLeagues] = useState([])
-    const [leagueParams,setLeagueParams] = useState<LeagueParams>({})
-
-    const presetData = async () => {
-        try{
-           await getDataLeague()
-        }catch(e){
-
-        }
-    }
-
-    
-    const getDataLeague = async () => {
-        const list = await getLeagues(leagueParams)
-        console.log("getData, ",list.data)
-        const {response} = list.data
-        setListLeagues(response)
-    }
-    
-
-    useEffect(()=>{
-        presetData()
-    },[])
+const Loader = (props: any) => {
 
 
     return (
@@ -58,4 +34,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default PreLoader
+export default Loader

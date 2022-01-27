@@ -6,61 +6,26 @@
  * @flow strict-local
  */
 
-import React from 'react';
-import type Node from 'react';
-import {
-    SafeAreaView,
-    ScrollView,
-    StatusBar,
-    StyleSheet,
-    Text,
-    useColorScheme,
-    View,
-} from "react-native";
-
-import {
-    Colors,
-    DebugInstructions,
-    Header,
-    LearnMoreLinks,
-    ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Provider } from 'react-redux';
+import configureStore from './src/infra/redux/configureStore';
 
 import Home from './src/pages/home/Home';
 import Router from "./src/config/routes/"
-const Section = ({ children, title }): any => {
-    const isDarkMode = useColorScheme() === 'dark';
-    return (
-        <View style={styles.sectionContainer}>
-            <Text
-                style={[
-                    styles.sectionTitle,
-                    {
-                        color: isDarkMode ? Colors.white : Colors.black,
-                    },
-                ]}>
-                {title}
-            </Text>
-            <Text
-                style={[
-                    styles.sectionDescription,
-                    {
-                        color: isDarkMode ? Colors.light : Colors.dark,
-                    },
-                ]}>
-                {children}
-            </Text>
-        </View>
-    );
-};
+
+const { store } = configureStore();
+
 
 const App: () => any = () => {
-  
+
     return (
-        <SafeAreaProvider>
-            <Router />
-        </SafeAreaProvider>
+        <Provider store={store}>
+
+            <SafeAreaProvider>
+                <Router />
+            </SafeAreaProvider>
+        </Provider>
     );
 };
 

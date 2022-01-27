@@ -1,5 +1,5 @@
 
-interface  LeagueParams {
+type  LeagueParams {
     id?: number,
     name?: string,
     country?: string,

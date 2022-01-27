@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, StackNavigationOptions } from '@react-navigation/stack';
 
 import Home from "../../pages/home/Home";
-import PreLoader from "../../components/molecules/loader"
+import PreLoader from '../../pages/preLoader/PreLoader';
 
 export const ROUTERS = {
     "Home": "Home",
