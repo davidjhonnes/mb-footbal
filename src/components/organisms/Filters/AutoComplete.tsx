@@ -3,17 +3,20 @@ import { Image, ScrollView, Text, View } from "react-native"
 import R from "ramda";
 import TextField from '../../atoms/Field/TextField';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { responsiveHeight } from 'react-native-responsive-dimensions';
+import { responsiveHeight, responsiveWidth } from 'react-native-responsive-dimensions';
 import { DropdownFilter } from './styles';
+import { ButtonItemWithImage } from '../../atoms/Buttons';
+import { LeagueSerialized } from '../../../interface/League';
 
-type PropsAutoComplete = {
+interface PropsAutoComplete  {
     label: string,
     placeholder: string,
     fontSizeLabel?: number,
     colorLabel?: string,
     inputColor?: string,
     fontSizeInput?: number,
-    data: []
+    data: [],
+    listenerFilter: (data: LeagueSerialized) => void
 }
 
 const AutoComplete = ({
@@ -24,33 +27,58 @@ const AutoComplete = ({
     inputColor,
     fontSizeInput,
     data,
+    listenerFilter
 }: PropsAutoComplete) => {
 
     const [text, setText] = useState("")
-    const [listDataFiltered, setListDataFiltered] = useState([])
+    const [isLoading, setIsLoading] = useState<Boolean>(false)
+    const [listDataFiltered, setListDataFiltered] = useState<Array<any>>([])
+    const [leagueSelected, setLeagueSelected] = useState<LeagueSerialized>(null)
 
     const handleText = (t: string) => {
+        setLeagueSelected(null)
         setText(t)
         FilterData(t)
     }
 
+    const handlerSelectLeague = (league: LeagueSerialized) =>{
+        setLeagueSelected(league)
+        listenerFilter(league)
+        setText(league?.league?.name)
+    }
     const FilterData = (t: string) => {
+        if (!t.length) {
+            setListDataFiltered([])
+            listenerFilter(null)
+            return;
+        }
+        if(t.length < 3) return;
+        setIsLoading(true)
         try {
             const cloneList = R.clone(data)
-            const filtered = cloneList?.filter(v => v.league?.name?.includes(t))
+            const filtered = cloneList?.filter(v => {
+                const vLower = v.league?.name?.toLowerCase()
+                return vLower.includes(t.toLowerCase())
+            })
             setListDataFiltered(filtered)
+            setTimeout(()=>{
+                setIsLoading(false)
+            },300)
+            
         } catch (e) {
-            console.log("erro", e)
+            setIsLoading(false)
+            console.error("erro", e)
         }
+
     }
 
     useEffect(() => {
 
     }, [])
-
     return (
-        <View>
+        <View style={{}}>
             <TextField
+                isLoading={isLoading}
                 fontSizeLabel={fontSizeLabel}
                 colorLabel={colorLabel}
                 inputColor={inputColor}
@@ -58,24 +86,32 @@ const AutoComplete = ({
                 label={label}
                 placeholder={placeholder}
                 onChangeTextInput={handleText}
+                value={text}
+                image={leagueSelected ? { uri:  leagueSelected?.league?.logo } : null}
             />
-            {text?.length && listDataFiltered.length ?
+            {text?.length && listDataFiltered.length && !leagueSelected ?
                 <DropdownFilter>
-                    <View>
-                        {listDataFiltered?.map(item => {
+                        {listDataFiltered?.map((item, index) => {
                             return (
-                                <TouchableOpacity
-                                    style={{ padding: 5, marginBottom: 10, flexDirection: 'row', alignItems: 'center' }}
-                                >
-                                    <Image source={{ uri: item?.league?.logo }} style={{ width: 30, height: 30, borderRadius: 60, marginRight: 10, borderWidth: 1 }} />
-                                    <Text>{item?.league?.name}</Text>
-                                </TouchableOpacity>
+                                <ButtonItemWithImage 
+                                    key={`select-league-${index}`}
+                                    item={item}
+                                    onPress={()=>handlerSelectLeague(item)}
+                                    text={item?.league?.name}
+                                    imageUri={item?.league?.logo}
+                                />
                             )
                         })}
-                    </View>
+                    
                 </DropdownFilter>
-                : null}
-        </View>
+                : text?.length && !listDataFiltered.length ?
+                    <DropdownFilter>
+                        <View style={{flexDirection:"column",justifyContent:"center", alignItems:"center", alignSelf:'center', alignContent:"center", height:100}}>
+                            <Text>Sorry! We can't found your league.</Text>
+                        </View>
+                    </DropdownFilter>
+                    : null}
+        </View >
     )
 }
 

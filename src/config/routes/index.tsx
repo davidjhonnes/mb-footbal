@@ -5,10 +5,12 @@ import { createStackNavigator, CardStyleInterpolators, StackNavigationOptions } 
 
 import Home from "../../pages/home/Home";
 import PreLoader from '../../pages/preLoader/PreLoader';
+import LeaderBoard from '../../pages/leaderboard/LeaderBoard';
 
 export const ROUTERS = {
     "Home": "Home",
-    "PreLoader": "PreLoader"
+    "PreLoader": "PreLoader",
+    "LeaderBoard": "LeaderBoard"
 }
 
 const options: StackNavigationOptions = {
@@ -17,7 +19,7 @@ const options: StackNavigationOptions = {
 const Stack = createStackNavigator();
 function AppStack() {
 
-  
+
     return (
         <Stack.Navigator
             initialRouteName={ROUTERS.PreLoader}
@@ -32,10 +34,16 @@ function AppStack() {
                 component={PreLoader}
                 options={{ headerShown: false }}
             />
-           
+
             <Stack.Screen
                 name={ROUTERS.Home}
                 component={Home}
+                options={{ headerShown: false }}
+            />
+
+            <Stack.Screen
+                name={ROUTERS.LeaderBoard}
+                component={LeaderBoard}
                 options={{ headerShown: false }}
             />
 
@@ -46,12 +54,11 @@ function AppStack() {
 
 export default () => {
 
-    return(
+    return (
         <NavigationContainer>
-             <AppStack  />
+            <AppStack />
         </NavigationContainer>
     )
 }
 
 
- 

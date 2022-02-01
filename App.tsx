@@ -9,6 +9,8 @@
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Provider } from 'react-redux';
+import { Provider as PaperProvider } from 'react-native-paper';
+
 import configureStore from './src/infra/redux/configureStore';
 
 import Home from './src/pages/home/Home';
@@ -21,10 +23,11 @@ const App: () => any = () => {
 
     return (
         <Provider store={store}>
-
-            <SafeAreaProvider>
-                <Router />
-            </SafeAreaProvider>
+            <PaperProvider>
+                <SafeAreaProvider>
+                    <Router />
+                </SafeAreaProvider>
+            </PaperProvider>
         </Provider>
     );
 };

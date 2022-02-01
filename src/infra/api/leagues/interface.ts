@@ -1,5 +1,5 @@
 
-type  LeagueParams {
+export type  LeagueParams = {
     id?: number,
     name?: string,
     country?: string,
