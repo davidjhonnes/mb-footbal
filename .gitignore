@@ -31,15 +31,16 @@ android/app/build
 
 
 
+
+
 # Android/IntelliJ
 #
-build/
+android/
 .idea
 .gradle
 *.aab
 *.apk
 *.ap_
-local.properties
 *.iml
 *.hprof
 
@@ -116,3 +117,4 @@ Thumbs.db
 *.mov
 *.wmv
 
+android/local.properties
