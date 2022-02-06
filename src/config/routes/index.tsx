@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, CardStyleInterpolators, StackNavigationOptions } from '@react-navigation/stack';
 
-import Home from "../../pages/home/Home";
-import PreLoader from '../../pages/preLoader/PreLoader';
-import LeaderBoard from '../../pages/leaderboard/LeaderBoard';
-import TeamDetails from '../../pages/teamdetails/TeamDetails';
+import Home from "../../components/pages/home/Home";
+import PreLoader from '../../components/pages/preLoader/PreLoader';
+import LeaderBoard from '../../components/pages/leaderboard/LeaderBoard';
+import TeamDetails from '../../components/pages/teamdetails/TeamDetails';
 
 export const ROUTERS = {
     "Home": "Home",
