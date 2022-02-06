@@ -27,9 +27,7 @@ DerivedData
 *.xcuserstate
 
 #Android builds
-# android/app/build
-android/app/release
-
+android/app/build
 
 
 
