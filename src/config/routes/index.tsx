@@ -6,11 +6,13 @@ import { createStackNavigator, CardStyleInterpolators, StackNavigationOptions } 
 import Home from "../../pages/home/Home";
 import PreLoader from '../../pages/preLoader/PreLoader';
 import LeaderBoard from '../../pages/leaderboard/LeaderBoard';
+import TeamDetails from '../../pages/teamdetails/TeamDetails';
 
 export const ROUTERS = {
     "Home": "Home",
     "PreLoader": "PreLoader",
-    "LeaderBoard": "LeaderBoard"
+    "LeaderBoard": "LeaderBoard",
+    "TeamDetails": "TeamDetails"
 }
 
 const options: StackNavigationOptions = {
@@ -46,7 +48,19 @@ function AppStack() {
                 component={LeaderBoard}
                 options={{ headerShown: false }}
             />
+            <Stack.Screen
+                name={ROUTERS.TeamDetails}
+                component={TeamDetails}
+                options={({ route}: any)  =>({
+                     title: route.params.dataTeam.name,
+                     headerShown: true,
+                     headerStyle: {
+                        backgroundColor: '#30302e',
+                      },
+                    headerTintColor: '#fff',
+                    })}
 
+            />
         </Stack.Navigator>
     )
 }

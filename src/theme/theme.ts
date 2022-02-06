@@ -2,7 +2,7 @@
 export enum Colors {
     Blue = "#1417d9",
     Green = "#078a25",
-    Yellow = "b4ba07", 
+    Yellow = "#b4ba07", 
     Black = "#191a19",
     BlackHighlight = "#818181",
     White = "#ffffff"
@@ -17,9 +17,9 @@ export enum TypeButons{
 
 export enum SizeButtons{
     Large = "width: 100%; height: 55px",
-    Medium =  "width: 50%; height: 30px",
-    Small =  "width: 25%; height: 25px",
-    BigSmall =  "width: 15% ; height: 18px",
+    Medium =  "width: 43%; height: 38px",
+    Small =  "width: 23%; height: 25px",
+    BigSmall =  "width: 13% ; height: 18px",
 }
 
 export enum FontSize{

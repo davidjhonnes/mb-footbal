@@ -8,6 +8,7 @@
 
 import React from 'react'
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { LogBox } from 'react-native';
 import { Provider } from 'react-redux';
 import { Provider as PaperProvider } from 'react-native-paper';
 
@@ -19,6 +20,11 @@ import Router from "./src/config/routes/"
 const { store } = configureStore();
 
 
+LogBox.ignoreLogs([
+  'Non-serializable values were found in the navigation state',
+  "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
+  "Expected style"
+]);
 const App: () => any = () => {
 
     return (

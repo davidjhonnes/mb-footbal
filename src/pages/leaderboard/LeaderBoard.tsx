@@ -5,10 +5,9 @@ import R from "ramda";
 import { BlurView } from "@react-native-community/blur";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { responsiveFontSize, responsiveScreenFontSize } from 'react-native-responsive-dimensions';
-
-
-
-
+import { getStandingsByLeagueSeason } from '../../infra/api/standings/standings-services';
+import { StandingResponse } from '../../interface/Standing';
+import { Content, Header, LogoLeague, ViewAbsolute } from './style';
 
 const LeaderBoard = ({
     route: {
@@ -16,60 +15,85 @@ const LeaderBoard = ({
     },
     navigation
 }) => {
-    const { league: { league }, selectedSeasons, listRoutes, listScenes } = params
+    const { league: { league }, listRoutes, listScenes } = params
     const layout = useWindowDimensions();
-    const [seasons, setSeasons] = useState([])
+    const [loading, setLoading] = useState<boolean>(false)
     const [index, setIndex] = useState(0);
+    const [standings, setStandings] = useState<StandingResponse[]>([])
 
 
-    const [routes, setRoutes] = React.useState(listRoutes);
+    const [routes, setRoutes] = useState(listRoutes);
     let renderScene = SceneMap(listScenes);
 
     const changeTab = (index) => {
-         // changeTab(routes[index].key)
-         if(index)
-         setIndex(index)
-         console.log("season .year", index)
+        setLoading(true)
+        if (index)
+            setIndex(index)
 
-         const tmp = R.clone(routes)
-         const obj = tmp[index]
-         const list = tmp
-         obj.dataStading = { currentSeason: tmp[index].key }
-         list[index] =obj
+        let tmp = R.clone(routes)
+        loadStadings(tmp[index].key).then((r) => {
+            setIndex(index)
+            let obj = tmp[index]
+            let list = tmp
+            obj.stadingsResponse = r
+            obj.season = tmp[index].key,
+                obj.leagueId = league.id
+            list[index] = obj
+            setRoutes(list)
+            loadStadings(tmp[index].key)
+            setLoading(false)
 
-         setRoutes(list)
+        }).catch((e) => {
+            console.error(e)
+            setLoading(false)
+        })
+
     }
+
+    const loadStadings = async (currentSeason) => {
+        try {
+            if (currentSeason) {
+                const std = await getStandingsByLeagueSeason({ league: league.id, season: currentSeason })
+                const dateSet: StandingResponse[] = std?.data?.response ? std?.data?.response : []
+
+                setStandings(dateSet)
+                return std?.data?.response
+            }
+        } catch (e) {
+            console.error("error", e)
+            throw e
+        }
+    }
+
     useEffect(() => {
         changeTab(0)
-    }, [league, selectedSeasons])
+    }, [league])
+
 
 
     const renderTabBar = props => (
         <TabBar
             {...props}
-            indicatorStyle={{ backgroundColor: 'black', height: 6 }}
-            style={{ backgroundColor: 'yellow' }}
+            indicatorStyle={{
+                backgroundColor: 'black',
+                height: 6
+            }}
+            style={{ 
+                backgroundColor: 'yellow' 
+            }}
             renderLabel={({ route, focused, color }) => (
                 <Text style={{ color: "#000000", margin: 8, fontWeight: '700' }}>
                     {route.title}
                 </Text>
             )}
             scrollEnabled
-            onTabPress={({ route, preventDefault }) => {
-                // changeTab(route.key)
-                // if (route.key === 'home') {
-                //     preventDefault();
-
-                //     // Do something else
-                // }
-            }}
+           
 
         />
     );
-    console.log("params", params)
     return (
         <>
-            <View style={{ height: 150, width: '100%' }}>
+            <Header >
                 <ImageBackground
                     style={styles.imageBlur}
                     key={'blurryImage'}
@@ -78,29 +102,43 @@ const LeaderBoard = ({
                     blurRadius={0}
 
                 >
-                    <View style={{ backgroundColor: "rgba(42, 42, 39, 0.88)", height: "100%" }}>
-                        <View style={{ margin: 10, position: "absolute" }}>
-                            <TouchableOpacity onPress={() => navigation.goBack()}>
-                                <Icon name="times-circle" size={responsiveScreenFontSize(4)} color="yellow" />
+                    <Content >
+                        <ViewAbsolute>
+                            <TouchableOpacity
+                                onPress={() =>
+                                    navigation.goBack()
+                                }
+                                disabled={loading}
+                            >
+                                <Icon
+                                    name="arrow-circle-left"
+                                    size={responsiveScreenFontSize(4)}
+                                    color={loading ? "rgba(0,0,0,0.3)" : "yellow"}
+                                />
                             </TouchableOpacity>
-                        </View>
-                        <View style={{ margin: 10, alignSelf: "center", justifyContent: "center", alignItems: "center", width: 90, height: 90, borderRadius: 8, backgroundColor: "rgba(255, 255, 255, 0.82)" }}>
-                            <Image source={{ uri: league.logo }} style={styles.logo} resizeMode={"contain"} />
-                        </View>
-                        <Text style={{ fontSize: responsiveFontSize(3), alignSelf: "center", color: "#ffffff" }}>{league.name} </Text>
-                    </View>
+                        </ViewAbsolute>
+                        <LogoLeague>
+                            <Image
+                                source={{ uri: league.logo }}
+                                style={styles.logo}
+                                resizeMode={"contain"}
+                            />
+                        </LogoLeague>
+                        <Text style={styles.title}>{league.name} </Text>
+                    </Content>
                 </ImageBackground>
 
-            </View>
+            </Header>
             <TabView
                 renderTabBar={renderTabBar}
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
                 initialLayout={{ width: layout.width }}
                 onIndexChange={(i) => {
-                    if(index === i) return
-                   setIndex(i)
-                   changeTab(i)
+                    if (index !== i) {
+                        changeTab(i)
+                    }
+
                 }}
                 swipeEnabled={false}
             />
@@ -131,6 +169,12 @@ const styles = StyleSheet.create({
     },
     blur: {
         backgroundColor: 'rgba(42, 42, 39, 0.62)'
+    },
+
+    title: {
+        fontSize: responsiveFontSize(3),
+        alignSelf: "center",
+        color: "#ffffff"
     }
 });
 

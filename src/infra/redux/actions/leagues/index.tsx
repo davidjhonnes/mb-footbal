@@ -10,8 +10,9 @@ export const setLeaguesAction = (data) => ({
     payload: data
 });
 
-export const getLeaguesListAction = (list) => ({
-    type: constants.GET_LIST_LEAGUES,
-    payload: list
+export const setSelectedLeagueAction = (data) => ({
+    type: constants.SET_LEAGUE_SELECTED,
+    payload: data
 });
+
 

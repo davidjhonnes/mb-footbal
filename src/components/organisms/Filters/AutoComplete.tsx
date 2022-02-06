@@ -9,6 +9,7 @@ import { ButtonItemWithImage } from '../../atoms/Buttons';
 import { LeagueSerialized } from '../../../interface/League';
 
 interface PropsAutoComplete  {
+    value?:LeagueSerialized,
     label: string,
     placeholder: string,
     fontSizeLabel?: number,
@@ -20,6 +21,7 @@ interface PropsAutoComplete  {
 }
 
 const AutoComplete = ({
+    value,
     label,
     placeholder,
     fontSizeLabel,
@@ -73,8 +75,8 @@ const AutoComplete = ({
     }
 
     useEffect(() => {
-
-    }, [])
+        handlerSelectLeague(value)
+    }, [value])
     return (
         <View style={{}}>
             <TextField
@@ -104,7 +106,7 @@ const AutoComplete = ({
                         })}
                     
                 </DropdownFilter>
-                : text?.length && !listDataFiltered.length ?
+                : text?.length && !leagueSelected && !listDataFiltered.length ?
                     <DropdownFilter>
                         <View style={{flexDirection:"column",justifyContent:"center", alignItems:"center", alignSelf:'center', alignContent:"center", height:100}}>
                             <Text>Sorry! We can't found your league.</Text>

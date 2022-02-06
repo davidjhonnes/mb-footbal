@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Text, View } from 'react-native';
-import { PaperSelect } from 'react-native-paper-select';
+import { PaperSelect } from '../../paper-checkbox/index';
 import { responsiveFontSize } from 'react-native-responsive-dimensions';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -31,13 +31,18 @@ const PickerMultiple = ({
 
         const temp = list.map((item, index) => {
             item.value = item[keyValue]?.toString()
-            item._id = index
+            item._id = item[keyValue]?.toString()
+            return item
+        })
+        const selectTemp = selectedItems?.map((item, index) => {
+            item.value = item[keyValue]?.toString()
+            item._id = item[keyValue]?.toString()
             return item
         })
         setItems({
             value: value != undefined ? value : "",
             list: temp,
-            selectedList: selectedItems,
+            selectedList: selectTemp ? selectTemp : [],
             error: '',
         })
     }, [list, selectedItems, value])

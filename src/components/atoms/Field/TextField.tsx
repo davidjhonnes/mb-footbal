@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Image, Text, TouchableOpacity, View, } from "react-native"
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-import { Label, Input, BoxInput, ImageLogo, TextSelected, BoxItemSelected } from './styles';
+import { Label, Input, BoxInput, ImageLogo, TextSelected, BoxItemSelected, Button } from './styles';
 
 const TextField = ({
     isLoading,
@@ -53,9 +53,9 @@ const TextField = ({
                 {isLoading ?
                     <ActivityIndicator style={{ flex: 1 }} />
                     :
-                    <TouchableOpacity onPress={() => handleText("")} style={{ alignSelf: "center", marginLeft: 10 }} >
+                    <Button onPress={() => handleText("")}>
                         <Icon name="times-circle" size={18} color="#999" />
-                    </TouchableOpacity>
+                    </Button>
                 }
             </BoxInput>
         </View>

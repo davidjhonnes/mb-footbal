@@ -16,7 +16,7 @@ export const ButtonSelectItem = styled.TouchableOpacity`
     margin-bottom: 10px;
     flex-direction: row; 
     align-items: center;
-    max-width: ${responsiveWidth(60)}
+    max-width: ${responsiveWidth(60)}px
 `
 
 

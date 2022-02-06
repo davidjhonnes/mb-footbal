@@ -2,7 +2,8 @@ import * as constants from '../../constants/leagues/index';
 
 const initialState = {
     leagues: [],
-    isFetching: false
+    isFetching: false,
+    leagueSelected: null
 };
 
 export default function leaguesReducer(state = initialState, action) {
@@ -17,10 +18,10 @@ export default function leaguesReducer(state = initialState, action) {
                 ...state,
                 isFetching: action.payload
             };
-
-        case constants.GET_LIST_LEAGUES:
+        case constants.SET_LEAGUE_SELECTED :
             return {
-                ...state
+                ...state,
+                leagueSelected: action.payload
             };
 
         default:

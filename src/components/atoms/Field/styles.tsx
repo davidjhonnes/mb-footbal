@@ -11,7 +11,7 @@ type LabelProps = {
 
 export const Input = styled.TextInput<LabelProps>`
 ${({ fontSize, color }) => css`
-        font-size:${fontSize ? fontSize : responsiveFontSize(1.8)};
+        font-size:${fontSize ? fontSize : responsiveFontSize(1.8)+'px'};
         color: ${color ? color : "#333333"}
        
         flex:5;
@@ -27,14 +27,14 @@ export const BoxItemSelected = styled.View`
 `
 export const TextSelected = styled.Text<LabelProps>`
 ${({ fontSize, color }) => css`
-        font-size:${fontSize ? fontSize : responsiveFontSize(1.8)};
+        font-size:${fontSize ? fontSize : responsiveFontSize(1.8)+'px'};
         color: ${color ? color : "#333333"}
        
 `}`
 
 export const Label = styled.Text<LabelProps>`
 ${({ fontSize, color }) => css`
-    font-size:${fontSize ? fontSize : responsiveFontSize(1.8)};
+    font-size:${fontSize ? fontSize : responsiveFontSize(1.8)+'px'};
     color: ${color ? color : "#333333"}
     font-weight: 700;
     
@@ -57,4 +57,9 @@ export const ImageLogo = styled.Image`
     margin-right: 10px; 
     border-Width: 1px;
     align-self: center;
+`
+
+export const Button = styled.TouchableOpacity`
+    align-self: center;
+    margin-left: 10px
 `

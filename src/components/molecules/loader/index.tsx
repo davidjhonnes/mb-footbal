@@ -17,7 +17,7 @@ const Loader = (props: any) => {
                 animationStyle={styles.lottie}
                 speed={1}
             >
-                <Text style={{ color: "#888888", fontSize: 16, marginTop: 10 }}>Carregando</Text>
+                <Text style={{ color: "#888888", fontSize: 16, marginTop: 5 }}>Loading Data</Text>
             </AnimatedLoader>
         </View>
 
@@ -26,7 +26,10 @@ const Loader = (props: any) => {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: 'rgb(64, 83, 247)'
+        flexDirection:'column',
+        justifyContent:'center',
+        alignItems:'center',
+        alignContent:'center',
     },
     lottie: {
         width: 250,
