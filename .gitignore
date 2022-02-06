@@ -29,9 +29,10 @@ DerivedData
 #Android builds
 android/app/build
 
-
-
-
+android/
+local.properties
+build/
+local.properties
 
 # Android/IntelliJ
 #
@@ -41,6 +42,7 @@ android/
 *.aab
 *.apk
 *.ap_
+local.properties
 *.iml
 *.hprof
 
