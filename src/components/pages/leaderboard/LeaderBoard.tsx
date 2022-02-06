@@ -29,7 +29,7 @@ const LeaderBoard = ({
         if (index)
             setIndex(index)
 
-        let tmp = R.clone(routes)
+        let tmp = routes
         loadStadings(tmp[index].key).then((r) => {
             setIndex(index)
             let obj = tmp[index]

@@ -57,7 +57,7 @@ const AutoComplete = ({
         if(t.length < 3) return;
         setIsLoading(true)
         try {
-            const cloneList = R.clone(data)
+            const cloneList = data
             const filtered = cloneList?.filter(v => {
                 const vLower = v.league?.name?.toLowerCase()
                 return vLower.includes(t.toLowerCase())

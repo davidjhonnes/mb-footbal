@@ -30,7 +30,7 @@ const RatingSeason = ({
     // Head Table
     const [tableHead] = useState(['Rank', 'Team', 'Points', 'Goals diff', "Played", "Wins", "Draw", "Losses"])
     //Width columns table
-    const widthArr = [50, 180, 50, 80, 60, 50, 50, 60]
+    const widthArr = [50, 180, 70, 90, 60, 50, 50, 60]
 
     const handleNavToDetails = (team: Team) => {
         setCurrentStanding(null)
